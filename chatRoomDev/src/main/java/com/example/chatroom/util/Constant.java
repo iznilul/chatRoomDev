@@ -23,6 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Constant {
 
     public static final String USER_TOKEN = "userId";
+
+	public static final String GROUP_TOKEN = "groupId";
     
     public static Map<String, WebSocketServerHandshaker> webSocketHandshakerMap = 
             new ConcurrentHashMap<String, WebSocketServerHandshaker>();

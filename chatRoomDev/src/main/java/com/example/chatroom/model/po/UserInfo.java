@@ -1,15 +1,17 @@
 package com.example.chatroom.model.po;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class UserInfo {
-
     private String userId;
     private String username;
     private String password;
     private String avatarUrl;
-    private List<UserInfo> friendList;
-    private List<GroupInfo> groupList;
+    private List<User> friendList;
+    private List<Group> groupList;
+//    private List<UserInfo> friendList;
+//    private List<GroupInfo> groupList;
     
     public UserInfo() {
         super();
@@ -49,19 +51,19 @@ public class UserInfo {
         this.avatarUrl = avatarUrl;
     }
 
-    public List<UserInfo> getFriendList() {
+    public List<User> getFriendList() {
         return friendList;
     }
 
-    public void setFriendList(List<UserInfo> friendList) {
+    public void setFriendList(List<User> friendList) {
         this.friendList = friendList;
     }
 
-    public List<GroupInfo> getGroupList() {
+    public List<Group> getGroupList() {
         return groupList;
     }
 
-    public void setGroupList(List<GroupInfo> groupList) {
+    public void setGroupList(List<Group> groupList) {
         this.groupList = groupList;
     }
 

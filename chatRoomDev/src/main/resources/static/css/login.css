@@ -59,7 +59,7 @@ body {
 
 /*--main--*/
 .background {
-	background: url(../img/login_bg.jpg)no-repeat center;  
+	background: url(../img/login_bg.jpg)no-repeat center;
 	background-size: cover;
 	/* background-color: aliceblue; */
 }

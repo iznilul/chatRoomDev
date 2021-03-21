@@ -1,7 +1,6 @@
 body {
 	font-family:"微软雅黑" !important;
 }
-
 .qqBox{
     width: 798px;
     height: 600px;
@@ -125,6 +124,8 @@ body {
     -webkit-box-flex: 1;
     overflow-y: scroll;
     overflow-x: hidden;
+    background: url(../img/chat_bg.jpg);
+    background-size: cover;
 }
 
 .RightCont::-webkit-scrollbar{
@@ -218,12 +219,12 @@ body {
     position: relative;
 }
 .emjon{
-    width: 425px;
-    height: 250px;
+    width: 500px;
+    height: 300px;
     border: 1px solid #ccc;
     position: absolute;
     left:0;
-    top:-250px;
+    top:-300px;
     display: none;
     background: #fff;
 }

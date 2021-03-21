@@ -1,5 +1,6 @@
 package com.example.chatroom.model.po;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class GroupInfo {
@@ -7,9 +8,9 @@ public class GroupInfo {
     private String groupId;
     private String groupName;
     private String groupAvatarUrl;
-    private List<UserInfo> members;
+    private List<User> members;
     
-    public GroupInfo(String groupId, String groupName, String groupAvatarUrl, List<UserInfo> members) {
+    public GroupInfo(String groupId, String groupName, String groupAvatarUrl, List<User> members) {
         super();
         this.groupId = groupId;
         this.groupName = groupName;
@@ -23,10 +24,10 @@ public class GroupInfo {
     public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
-    public List<UserInfo> getMembers() {
+    public List<User> getMembers() {
         return members;
     }
-    public void setMembers(List<UserInfo> members) {
+    public void setMembers(List<User> members) {
         this.members = members;
     }
 

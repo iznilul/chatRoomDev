@@ -1,10 +1,11 @@
 package com.example.chatroom.service.impl;
 
+import com.example.chatroom.dao.UserInfoDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.chatroom.dao.UserInfoDao;
+import com.example.chatroom.mapper.UserMapper;
 import com.example.chatroom.model.po.UserInfo;
 import com.example.chatroom.model.vo.ResponseJson;
 import com.example.chatroom.service.SecurityService;

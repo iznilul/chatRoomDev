@@ -1,22 +1,29 @@
 package com.example.chatroom.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.chatroom.dao.GroupInfoDao;
+import com.example.chatroom.dao.UserInfoDao;
+import com.example.chatroom.model.po.Group;
+import com.example.chatroom.model.po.GroupInfo;
+import com.example.chatroom.model.po.Message;
+import com.example.chatroom.model.po.UserInfo;
+import com.example.chatroom.model.vo.ResponseJson;
+import com.example.chatroom.service.ChatService;
+import com.example.chatroom.util.ChatType;
+import com.example.chatroom.util.Constant;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import com.example.chatroom.dao.GroupInfoDao;
-import com.example.chatroom.model.po.GroupInfo;
-import com.example.chatroom.model.vo.ResponseJson;
-import com.example.chatroom.service.ChatService;
-import com.example.chatroom.util.ChatType;
-import com.example.chatroom.util.Constant;
 
 import java.text.MessageFormat;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
 @Service
 public class ChatServiceImpl implements ChatService{
@@ -25,7 +32,12 @@ public class ChatServiceImpl implements ChatService{
             
     @Autowired
     private GroupInfoDao groupDao;
-    
+    @Autowired
+    private RedisTemplate redisTemplate;
+    @Autowired
+    private UserInfoDao userInfoDao;
+    @Autowired
+    private GroupInfoDao groupInfoDao;
     @Override
     public void register(JSONObject param, ChannelHandlerContext ctx) {
         String userId = (String)param.get("userId");
@@ -37,7 +49,50 @@ public class ChatServiceImpl implements ChatService{
         LOGGER.info(MessageFormat.format("userId为 {0} 的用户登记到在线用户表，当前在线人数为：{1}"
                 , userId, Constant.onlineUserMap.size()));
     }
-
+    @Override
+    public void offLineRedis(JSONObject param, ChannelHandlerContext ctx) {
+        String userId = (String)param.get("userId");
+        List<Message> messages=redisTemplate.opsForList().range(Constant.USER_TOKEN+userId,0,-1);
+        for(int i=0;i<messages.size();i++){
+            Message message=messages.get(i);
+            LOGGER.info("用户离线消息缓存命中{}",message.toString());
+            String responseJson = new ResponseJson().success()
+                    .setData("fromUserId", message.getFromUserId())
+                    .setData("content", message.getMessage())
+                    .setData("type", ChatType.SINGLE_SENDING)
+                    .toString();
+            sendMessage(ctx, responseJson);
+        }
+    }
+    @Override
+    public void groupRedis(JSONObject param, ChannelHandlerContext ctx) {
+        String userId = (String)param.get("userId");
+        UserInfo userInfo = userInfoDao.getByUserId(userId);
+        List<Group> groupList = userInfo.getGroupList();
+        for(int i=0;i<groupList.size();i++){
+            GroupInfo groupInfo=groupInfoDao.getByGroupId(groupList.get(i).getGroupId());
+            List<Message> messages=redisTemplate.opsForList().range(Constant.GROUP_TOKEN+groupInfo.getGroupId(),0,-1);
+            if(messages!=null){
+                for(int j=0;j<messages.size();j++){
+                    Message message=messages.get(j);
+                    LOGGER.info("群聊消息缓存命中{}",message.toString());
+                    String responseJson = new ResponseJson().success()
+                            .setData("fromUserId", message.getFromUserId())
+                            .setData("content", message.getMessage())
+                            .setData("toGroupId",message.getToUserId())
+                            .setData("type", ChatType.GROUP_SENDING)
+                            .toString();
+                    groupInfo.getMembers().stream()
+                            .forEach(member -> {
+                                ChannelHandlerContext toCtx = Constant.onlineUserMap.get(member.getUserId());
+                                if (toCtx != null) {
+                                    sendMessage(toCtx, responseJson);
+                                }
+                            });
+                }
+            }
+        }
+    }
     @Override
     public void singleSend(JSONObject param, ChannelHandlerContext ctx) {
         String fromUserId = (String)param.get("fromUserId");
@@ -46,9 +101,15 @@ public class ChatServiceImpl implements ChatService{
         ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(toUserId);
         if (toUserCtx == null) {
             String responseJson = new ResponseJson()
-                    .error(MessageFormat.format("userId为 {0} 的用户没有登录！", toUserId))
+                    .error(MessageFormat.format("userId为 {0} 的用户没有登录！消息已缓存", toUserId))
                     .toString();
             sendMessage(ctx, responseJson);
+            Message message=new Message();
+            message.setMessage(content);
+            message.setFromUserId(fromUserId);
+            message.setToUserId(toUserId);
+            redisTemplate.opsForList().rightPush(Constant.USER_TOKEN+toUserId,message);
+            LOGGER.info("离线用户消息已缓存{}",message.toString());
         } else {
             String responseJson = new ResponseJson().success()
                     .setData("fromUserId", fromUserId)
@@ -65,14 +126,6 @@ public class ChatServiceImpl implements ChatService{
         String fromUserId = (String)param.get("fromUserId");
         String toGroupId = (String)param.get("toGroupId");
         String content = (String)param.get("content");
-        
-        /*String userId = (String)param.get("userId");
-        String fromUsername = (String)param.get("fromUsername");*/
-        /*String responseJson = new ResponseJson().success()
-                .setData("fromUsername", fromUsername)
-                .setData("content", content)
-                .setData("type", ChatType.GROUP_SENDING)
-                .toString();*/
         /*Set<Entry<String, ChannelHandlerContext>> userCtxs = Constant.onlineUserMap.entrySet();
         for (Entry<String, ChannelHandlerContext> userCtx : userCtxs) {
             if (!userCtx.getKey().equals(userId)) {
@@ -90,6 +143,12 @@ public class ChatServiceImpl implements ChatService{
                     .setData("toGroupId", toGroupId)
                     .setData("type", ChatType.GROUP_SENDING)
                     .toString();
+            Message message=new Message();
+            message.setMessage(content);
+            message.setFromUserId(fromUserId);
+            message.setToUserId(toGroupId);
+            redisTemplate.opsForList().rightPush(Constant.GROUP_TOKEN+toGroupId,message);
+            LOGGER.info("已缓存用户群组消息{}",message.toString());
             groupInfo.getMembers().stream()
                 .forEach(member -> { 
                     ChannelHandlerContext toCtx = Constant.onlineUserMap.get(member.getUserId());
@@ -152,6 +211,7 @@ public class ChatServiceImpl implements ChatService{
         String fileSize = (String)param.get("fileSize");
         String fileUrl = (String)param.get("fileUrl");
         GroupInfo groupInfo = groupDao.getByGroupId(toGroupId);
+//        GroupInfo groupInfo = Constant.groupInfoMap.get(toGroupId);
         if (groupInfo == null) {
             String responseJson = new ResponseJson().error("该群id不存在").toString();
             sendMessage(ctx, responseJson);

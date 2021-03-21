@@ -6,6 +6,10 @@ import io.netty.channel.ChannelHandlerContext;
 public interface ChatService {
 
     public void register(JSONObject param, ChannelHandlerContext ctx);
+
+    public void offLineRedis(JSONObject param,ChannelHandlerContext ctx);
+
+    public void groupRedis(JSONObject param,ChannelHandlerContext ctx);
     
     public void singleSend(JSONObject param, ChannelHandlerContext ctx);
     

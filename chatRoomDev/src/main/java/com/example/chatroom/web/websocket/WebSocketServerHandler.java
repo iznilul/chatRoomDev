@@ -81,6 +81,12 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
             case "REGISTER":
                 chatService.register(param, ctx);
                 break;
+            case "OFFLINEREDIS":
+                chatService.offLineRedis(param,ctx);
+                break;
+            case "GROUPREDIS":
+                chatService.groupRedis(param,ctx);
+                break;
             case "SINGLE_SENDING":
                 chatService.singleSend(param, ctx);
                 break;

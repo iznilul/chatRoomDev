@@ -57,14 +57,13 @@
         sentMessageMap.put("002", new Array());
         sentMessageMap.put("003", new Array());
         sentMessageMap.put("004", new Array());
-        sentMessageMap.put("005", new Array());
-        sentMessageMap.put("006", new Array());
-        sentMessageMap.put("007", new Array());
-        sentMessageMap.put("008", new Array());
-        sentMessageMap.put("009", new Array());
+        // sentMessageMap.put("005", new Array());
+        // sentMessageMap.put("006", new Array());
+        // sentMessageMap.put("007", new Array());
+        // sentMessageMap.put("008", new Array());
+        // sentMessageMap.put("009", new Array());
         sentMessageMap.put("01", new Array());
     }
-    
     var ws = {
         register: function() {
             if (!window.WebSocket) {
@@ -80,7 +79,34 @@
                 alert("Websocket连接没有开启！");
             }
         },
-        
+        offLineRedis:function(){
+            if (!window.WebSocket) {
+                return;
+            }
+            if (socket.readyState == WebSocket.OPEN) {
+                var data = {
+                    "userId" : userId,
+                    "type" : "OFFLINEREDIS"
+                };
+                socket.send(JSON.stringify(data));
+            } else {
+                alert("Websocket连接没有开启！");
+            }
+        },
+        groupRedis:function(){
+            if (!window.WebSocket) {
+                return;
+            }
+            if (socket.readyState == WebSocket.OPEN) {
+                var data = {
+                    "userId" : userId,
+                    "type" : "GROUPREDIS"
+                };
+                socket.send(JSON.stringify(data));
+            } else {
+                alert("Websocket连接没有开启！");
+            }
+        },
         singleSend: function(fromUserId, toUserId, content) {
             if (!window.WebSocket) {
                   return;

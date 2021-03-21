@@ -1,6 +1,8 @@
 package com.example.chatroom.web.controller;
 
 
+import com.example.chatroom.util.ChatType;
+import io.netty.channel.ChannelHandlerContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +32,6 @@ public class ChatroomController {
     public String toChatroom() {
         return "chatroom";
     }
-
     /**
      * 描述：登录成功跳转页面后，调用此接口获取用户信息
      * @param userId
