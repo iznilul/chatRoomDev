@@ -72,9 +72,11 @@ Redis支持数据的备份，即master-slave模式的数据备份。
 
 ## 3.项目结构
 
+![Image](http://ww1.sinaimg.cn/large/006LiLY3ly1goryipyi1ij309u0cwgly.jpg)
 
 
-![image-20210321195237987](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321195237987.png)
+
+
 
 B/S架构，配置文件（config），dao，mapper（持久层），model（实体类），service（服务层），util（工具类），web（控制层，拦截器，服务器业务设计）
 
@@ -84,51 +86,51 @@ B/S架构，配置文件（config），dao，mapper（持久层），model（实
 
 文件上传路径
 
-![image-20210321200236194](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321200236194.png)
+![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryoov27ej30ku01pa9x.jpg)
 
 mysql数据库
 
-![image-20210321200315139](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321200315139.png)
+![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryooworjj30zn04awer.jpg)
 
 redis数据库
 
-![image-20210321200331241](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321200331241.png)
+![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryooxjzaj30ec07zaao.jpg)
 
 导入mysql数据库文件（chatroom.sql)，保存了用户的信息，用来登录
 
-![image-20210321195938380](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321195938380.png)
+![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryoow1x0j30js049wel.jpg)
 
 启动入口
 
-![image-20210321200509013](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321200509013.png)
+![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryoowu1xj30y706h0t0.jpg)
 
 开两个浏览器线程,一个登录001,另一个002
 
-![image-20210321200923508](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321200923508.png)
+![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryopaax5j30ro0nfqgw.jpg)
 
 001向在线的002发送消息
 
-![image-20210321201050376](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321201050376.png)
+![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryop58zbj30sp0lwq6o.jpg)
 
 002接收回复
 
-![image-20210321201131673](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321201131673.png)
+![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryopa6eaj30s20gldj9.jpg)
 
 001向共享群聊发送消息(群聊消息被缓存,方便下次查看)
 
-![image-20210321201403932](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321201403932.png)
+![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryopbahfj30sk0hp78t.jpg)
 
 002向离线的003发送消息(因为003离线,消息缓存)
 
-![image-20210321201521602](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321201521602.png)
+![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryop8jh1j30rg0exgok.jpg)
 
 003上线,看到新消息并接收
 
-![image-20210321201758797](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321201758797.png)
+![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryophhaaj30sv0jwjul.jpg)
 
-![image-20210321201901330](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321201901330.png)
+![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryopjrvjj30sd0irgpl.jpg)
 
-![image-20210321201933982](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210321201933982.png)
+![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryopjf81j30s30hhtd4.jpg)
 
 功能展示完成
 
