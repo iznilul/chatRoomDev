@@ -44,7 +44,7 @@ Netty，为了尽可能提升性能，Netty采用了串行无锁化设计，在I
 
 选netty来处理网络事件的连接和业务处理主要是为了提高服务器性能QvQ，不然我这菜鸡项目撑不了太多并发
 
-![img](https://www.write-bug.com/upload/image/128/380603e195adb95159d7c48534ee3342.png)
+![img](http://image.radcircle.love/3f4b16a4b2cc45b2bfe2db6f9f61beb0)
 
 
 
@@ -54,7 +54,7 @@ WebSocket API最伟大之处在于服务器和客户端可以在给定的时间�
 
 选择websocket做通信协议是因为这样可以建立持久的浏览器服务器连接，而且服务器还可以主动向浏览器发送消息，这样像是群组聊天，服务器可以主动检测所有在线用户逐个发送消息
 
-![img](https://www.write-bug.com/upload/image/128/0f026bf514652d686de425471811fd18.png)
+![img](http://image.radcircle.love/40cbfe3ad5bf44a38ebc05df4e7ff8f6)
 
 数据库的选择
 
@@ -72,7 +72,7 @@ Redis支持数据的备份，即master-slave模式的数据备份。
 
 ## 3.项目结构
 
-![Image](http://ww1.sinaimg.cn/large/006LiLY3ly1goryipyi1ij309u0cwgly.jpg)
+![Image](http://image.radcircle.love/8c35f9dcff034aa6986517c8f91665d6)
 
 
 
@@ -86,51 +86,53 @@ B/S架构，配置文件（config），dao，mapper（持久层），model（实
 
 文件上传路径
 
-![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryoov27ej30ku01pa9x.jpg)
+![img](http://image.radcircle.love/371c088111fb43c687d5defd051175d5)
 
 mysql数据库
 
-![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryooworjj30zn04awer.jpg)
+![img](http://image.radcircle.love/37c4dfbcfdc24af2b5511bacf343decf)
 
 redis数据库
 
-![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryooxjzaj30ec07zaao.jpg)
+![img](http://image.radcircle.love/22bc3afebd514347b4c979b9cb0eccba)
 
 导入mysql数据库文件（chatroom.sql)，保存了用户的信息，用来登录
 
-![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryoow1x0j30js049wel.jpg)
+![img](http://image.radcircle.love/256dcbb87cf2420aab66565930ba6524)
 
 启动入口
 
-![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryoowu1xj30y706h0t0.jpg)
+![img](http://image.radcircle.love/f4c2e4cdc7744957a0477b32b927dfa0)
 
 开两个浏览器线程,一个登录001,另一个002
 
-![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryopaax5j30ro0nfqgw.jpg)
+![img](http://image.radcircle.love/ff24c8dd7fc24f4ebb6dc57afc2797f3)
 
 001向在线的002发送消息
 
-![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryop58zbj30sp0lwq6o.jpg)
+![img](http://image.radcircle.love/7d865468fb72404faf13a9bf7a9222dc)
 
 002接收回复
 
-![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryopa6eaj30s20gldj9.jpg)
+![img](http://image.radcircle.love/06d90cae56d74e1d909eb0106f36d57e)
 
 001向共享群聊发送消息(群聊消息被缓存,方便下次查看)
 
-![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryopbahfj30sk0hp78t.jpg)
+![img](http://image.radcircle.love/1ed98ff5adb640febc7fbae30172e416)
 
 002向离线的003发送消息(因为003离线,消息缓存)
 
-![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryop8jh1j30rg0exgok.jpg)
+
+
+![img](http://image.radcircle.love/3806f2fc121a4de3bb7326de8f85e0c6)
 
 003上线,看到新消息并接收
 
-![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryophhaaj30sv0jwjul.jpg)
+![img](http://image.radcircle.love/a3ed4aafa1a7479ea82594ff560e0952)
 
-![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryopjrvjj30sd0irgpl.jpg)
+![img](http://image.radcircle.love/14b5fd84f9334bddae7d117395a40450)
 
-![img](http://ww1.sinaimg.cn/large/006LiLY3ly1goryopjf81j30s30hhtd4.jpg)
+![img](http://image.radcircle.love/8f1c045726184ee6aa740998dd49854b)
 
 功能展示完成
 
